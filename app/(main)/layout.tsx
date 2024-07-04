@@ -1,3 +1,5 @@
+import { Sidebar } from "@/components/sidebar";
+
 type Props = {
     children: React.ReactNode;
 }
@@ -5,7 +7,10 @@ type Props = {
 const MainLayout = ({ children }: Props) => {
     return (
         <>
-            <main className="pl-[256px] h-full">
+            <Sidebar classname="hidden lg:flex" />
+            {/* El sidebar aparecera solo "lg" */}
+            {/* pt-50 solo en movil luego pt-0 en desktop */}
+            <main className="lg:pl-[256px] h-full pt-[50px] lg:pt-0">
                 <div className="bg-red-400 h-full">
                     {children}
                 </div>
