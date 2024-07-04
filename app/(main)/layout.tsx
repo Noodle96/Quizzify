@@ -1,3 +1,4 @@
+import { MobileHeader } from "@/components/mobile-header";
 import { Sidebar } from "@/components/sidebar";
 
 type Props = {
@@ -7,6 +8,7 @@ type Props = {
 const MainLayout = ({ children }: Props) => {
     return (
         <>
+            <MobileHeader />
             <Sidebar classname="hidden lg:flex" />
             {/* El sidebar aparecera solo "lg" */}
             {/* pt-50 solo en movil luego pt-0 en desktop */}
