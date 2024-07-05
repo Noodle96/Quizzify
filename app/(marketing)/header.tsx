@@ -44,7 +44,7 @@ export const Header = () => {
                             // afterSignUpUrl="/learn"
                             // forceRedirectUrl="learn"
                         >
-                            {/* button personalizado */}
+                            
                             <Button variant="ghost" size="lg">Login</Button>
                         </SignInButton>
                     </SignedOut>

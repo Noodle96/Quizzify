@@ -33,16 +33,17 @@ export default function Home() {
             <SignedOut>
               {/* afterSignInUrl = "/learn" afterSignUpUrl = "/learn" */}
               {/* usuario crear una cuenta */}
-              <SignUpButton mode="modal" forceRedirectUrl="/learn"> {/* <-------------------------------- */}
+              <SignUpButton mode="modal" forceRedirectUrl="/learn">
                 <Button variant="secondary" size="lg" className="w-full">
                   Comenzar
                 </Button>
               </SignUpButton>
               {/* usuario login(ya tiene una cuenta) */}
-              <SignInButton mode="modal" forceRedirectUrl="/learn"> {/* <-------------------------------- */}
+              <SignInButton mode="modal" forceRedirectUrl="/learn">
                 <Button variant="primaryOutline" size="lg" className="w-full">
                   Ya tengo una cuenta
                 </Button>
+                
               </SignInButton>
             </SignedOut>
 
