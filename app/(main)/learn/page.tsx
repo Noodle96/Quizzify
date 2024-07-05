@@ -1,7 +1,11 @@
+import { StickyWrapper } from "@/components/sticky-wrapper";
+
 const LearnPage = () => {
     return(
-        <div>
-            <h1>Learn Page</h1>
+        <div className="flex flex-row-reverse gap-[48px] px-6">
+            <StickyWrapper>
+                My Stick wrapper
+            </StickyWrapper>
         </div>
     );
 }
