@@ -1,10 +1,18 @@
-import {getCourses } from "@/db/queries";
+import {getCourses, getUserProgress } from "@/db/queries";
 import { List } from "./list";
 
 const CoursesPage = async () => {
-    const courses = await getCourses();
+    const coursesData = getCourses();
+    const userProgressData = getUserProgress();
+    console.log("CoursePage");
+    
+    const [courses, userProgress] = await Promise.all([coursesData, userProgressData]);
+
+    console.log(courses);
+    console.log(userProgress);
     // console.log("de aqui");
     // console.log(data);
+
     return (
         <div className="h-full max-w-[912px] \
                         px-3 mx-auto">
@@ -14,7 +22,7 @@ const CoursesPage = async () => {
             {/* {JSON.stringify(data)} */}
             <List
                 courses = {courses}
-                activeCourseId = {1}
+                activeCourseId = {userProgress?.activeCourseId}
             />
         </div>
     );
