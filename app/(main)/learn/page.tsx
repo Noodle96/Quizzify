@@ -6,15 +6,18 @@ import { UserProgress } from "@/components/user-progress";
 import { redirect } from "next/navigation";
 
 const LearnPage = async () => {
+    console.log("Calling LearnPage");
+    
     const getUserProgressData = getUserProgress();
     const [
         userProgress
     ] = await Promise.all([
         getUserProgressData
     ]);
-    console.log("User: ", userProgress);
+    console.log("[LearnPage] UserProgres: ", userProgress);
+    //Solo entra aqui cuando el usuario aun no ha seleccionado un curso
     if(!userProgress || !userProgress.activeCourse){
-        console.log("!userProgress || !userProgress.activeCourse");
+        console.log("[LearnPage] !userProgress || !userProgress.activeCourse");
         redirect("/courses");
     }
     

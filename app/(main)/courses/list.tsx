@@ -17,7 +17,10 @@ export const List = ({ courses, activeCourseId }: Props) => {
     console.log("routerr: ", router);
 
     const onClick = (courseId: number) => {
-        if(pending) return;
+        if(pending){
+            console.log("pending");
+            return;
+        }
         if(courseId == activeCourseId){
             console.log("courseId == activeCourseId");
             return router.push("/learn");
