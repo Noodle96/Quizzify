@@ -3,7 +3,7 @@ import { auth } from '@clerk/nextjs/server';
 import { eq } from 'drizzle-orm';
 
 import db from "./drizzle";
-import { userProgress } from '@/db/schema';
+import { courses, userProgress } from '@/db/schema';
 
 export const getUserProgress = cache(async () => {
     const {userId} = await auth();
@@ -26,5 +26,13 @@ export const getUserProgress = cache(async () => {
 
 export const getCourses = cache(async () => {
     const data =  await db.query.courses.findMany();
+    return data;
+});
+
+export const getCourseById = cache(async (courseId: number) => {
+    const data = await db.query.courses.findFirst({
+        where: eq(courses.id, courseId ),
+        // TODO: populate units and lessons
+    });
     return data;
 });
