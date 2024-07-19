@@ -15,6 +15,8 @@ const LearnPage = async () => {
         getUserProgressData
     ]);
     console.log("[LearnPage] UserProgres: ", userProgress);
+    console.log("[LearnPage] UserProgres.activeCourse: ", userProgress?.activeCourse);
+    
     //Solo entra aqui cuando el usuario aun no ha seleccionado un curso
     if(!userProgress || !userProgress.activeCourse){
         console.log("[LearnPage] !userProgress || !userProgress.activeCourse");
@@ -26,15 +28,15 @@ const LearnPage = async () => {
             <StickyWrapper>
                 {/* My Stick wrapper */}
                 <UserProgress
-                    activeCourse = {{title: "Spanish", imageSrc:"/es.svg"}}
-                    hearts = {7}
-                    points = {101}
+                    activeCourse = {userProgress.activeCourse}
+                    hearts = {userProgress.hearts}
+                    points = {userProgress.points}
                     hasActiveSubscripcion = {false}
                 />
             </StickyWrapper>
 
             <FeedWrapper>
-                <Header title = "Spanish"/>
+                <Header title = {userProgress.activeCourse.title}/>
                 <div className="space-y-4">
                     <div className="h-[700px] bg-blue-500 w-full"/>
                     <div className="h-[700px] bg-blue-500 w-full"/>
