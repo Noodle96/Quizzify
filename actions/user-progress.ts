@@ -7,6 +7,7 @@ import { auth, currentUser } from "@clerk/nextjs/server";
 import { inArray } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { userAgentFromString } from "next/server";
 
 export const upsertUserProgress = async (courseId: number) => {
     console.log("calling upsertUserProgress");
@@ -27,6 +28,8 @@ export const upsertUserProgress = async (courseId: number) => {
     if(!course){
         throw new Error("Course not found");
     }
+
+    // throw new Error("Test")
     // TODO: Enable once units and lesson are created
     // if(!course.units.length || !course.units[0].lessons.length){
     //     throw new Error("Course is empty");
@@ -41,7 +44,8 @@ export const upsertUserProgress = async (courseId: number) => {
             activeCourseId: courseId,
             userName:user.firstName || "User random",
             userImageSrc: user.imageUrl || "/mascot.svg",
-        }).where(inArray(userProgress.userId, [userId]));
+        });
+        // .where(inArray(userProgress.userId, [userId]));
 
 
         revalidatePath("/courses");
