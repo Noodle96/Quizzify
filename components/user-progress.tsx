@@ -24,7 +24,9 @@ export const UserProgress =  ({
                     <Image
                         src={activeCourse.imageSrc}
                         alt={activeCourse.title}
-                        className="rounded-md border"
+                        // className="rounded-md border"
+                        className=""
+
                         width={32}
                         height={32}
                     />

@@ -20,28 +20,28 @@ const main = async () => {
         await db.insert(schema.courses).values([
             {
                 // id:1,
-                title:"Spanish",
-                imageSrc:"/es.svg",
+                title:"Ingles",
+                imageSrc:"/ingles.png",
             },
             {
                 // id:2,
-                title:"French",
-                imageSrc:"/fr.svg",
+                title:"Verbal",
+                imageSrc:"/verbal.png",
             },
-            {
-                // id:3,
-                title: "Croatian",
-                imageSrc: "/hr.svg",
-            },
-            {
-                // id:6,
-                title: "Italian",
-                imageSrc: "/it.svg",
-            },
-            {
-                title: "Japanese",
-                imageSrc: "/jp.svg",
-            },
+            // {
+            //     // id:3,
+            //     title: "Croatian",
+            //     imageSrc: "/hr.svg",
+            // },
+            // {
+            //     // id:6,
+            //     title: "Italian",
+            //     imageSrc: "/it.svg",
+            // },
+            // {
+            //     title: "Japanese",
+            //     imageSrc: "/jp.svg",
+            // },
         ]);
 
         console.log("Seeding finished");
