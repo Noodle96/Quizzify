@@ -2,7 +2,7 @@
 //     npm run db:push
 
 import { relations } from "drizzle-orm";
-import { integer, pgTable, serial, text } from "drizzle-orm/pg-core";
+import { integer, pgEnum, pgTable, serial, text } from "drizzle-orm/pg-core";
 
 /**
     * Defines the `courses` table with the following columns:
@@ -90,18 +90,61 @@ export const lessons = pgTable("lessons",{
 /**
     * Defines the relations for the `lessons` table:
     * - `unit`: One-to-one relation with the `units` table based on `unitId`.
+    * - `challenges`: One-to-many relation with the `challenges` table.
     * 
     * It reads:
     * - Each lesson belongs to ONE unit.
+    * - Each lesson can have MANY challenges.
     * 
     * @returns {Object} The relations for the `lessons` table.
 */
-const lessonsRelations = relations(lessons, ({one}) => ({
+const lessonsRelations = relations(lessons, ({one, many}) => ({
     unit: one(units,{
         fields:[lessons.unitId],
         references:[units.id],
     }),
+    challenges: many(challenges),
 }));
+
+export const challengesEnum = pgEnum("type", ["SELECT", "ASSIST"]);
+
+/**
+    * Defines the `challenges` table with the following columns:
+    * - `id`: Serial primary key.
+    * - `lessonId`: Integer referencing `lessons.id`, non-nullable, cascades on delete.
+    * - `type`: Enum with values "SELECT" and "ASSIST", non-nullable.
+    * - `question`: Non-nullable text.
+    * - `order`: Non-nullable integer.
+    * 
+    * @returns {Table} The `challenges` table definition. 
+*/
+export const challenges = pgTable("challenges", {
+    id: serial("id").primaryKey(),
+    lessonId: integer("lesson_id").references(() => lessons.id, { onDelete: "cascade" }).notNull(),
+    type: challengesEnum("type").notNull(),
+    question: text("question").notNull(),
+    order: integer("order").notNull(),
+});
+
+/**
+    * Defines the relations for the `challenges` table:
+    * - `lesson`: One-to-one relation with the `lessons` table based on `lessonId`.
+    * 
+    * It reads:
+    * - Each challenge belongs to ONE lesson.
+    * 
+    * @returns {Object} The relations for the `challenges` table. 
+*/
+
+export const challengesRelations = relations(challenges, ({one,many}) => ({
+    lesson: one(lessons, {
+        fields: [challenges.lessonId],
+        references: [lessons.id],
+    }),
+}));
+
+
+
 
 /**
     * Defines the userProgress table with the following columns:
