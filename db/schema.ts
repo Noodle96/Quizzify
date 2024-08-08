@@ -2,7 +2,7 @@
 //     npm run db:push
 
 import { relations } from "drizzle-orm";
-import { integer, pgEnum, pgTable, serial, text } from "drizzle-orm/pg-core";
+import { boolean, integer, pgEnum, pgTable, serial, text } from "drizzle-orm/pg-core";
 
 /**
     * Defines the `courses` table with the following columns:
@@ -12,7 +12,7 @@ import { integer, pgEnum, pgTable, serial, text } from "drizzle-orm/pg-core";
     * 
     * @returns {Table} The `courses` table definition.
 */
-export const courses = pgTable("courses",{
+export const courses = pgTable("courses", {
     id: serial("id").primaryKey(),
     title: text("title").notNull(),
     imageSrc: text("image_src").notNull(),
@@ -27,7 +27,7 @@ export const courses = pgTable("courses",{
     * 
     * @returns {Object} The relations for the `courses` table. 
 */
-export const coursesRelations = relations(courses, ({many}) => ({
+export const coursesRelations = relations(courses, ({ many }) => ({
     userProgress: many(userProgress)
 }));
 
@@ -43,11 +43,11 @@ export const coursesRelations = relations(courses, ({many}) => ({
     * 
     * @returns {Table} The `units` table definition.
 */
-export const units = pgTable("units",{
+export const units = pgTable("units", {
     id: serial("id").primaryKey(),
     title: text("title").notNull(),
     description: text("description").notNull(),
-    courseId: integer("course_id").references( () => courses.id,{onDelete:"cascade"} ).notNull(),
+    courseId: integer("course_id").references(() => courses.id, { onDelete: "cascade" }).notNull(),
     order: integer("order").notNull(),
 });
 
@@ -63,10 +63,10 @@ export const units = pgTable("units",{
     * 
     * @returns {Object} The relations for the `units` table.
  */
-export const unitsRelations = relations(units, ({one,many}) => ({
-    course: one(courses,{
-        fields:[units.courseId],
-        references:[courses.id],
+export const unitsRelations = relations(units, ({ one, many }) => ({
+    course: one(courses, {
+        fields: [units.courseId],
+        references: [courses.id],
     }),
     lesson: many(lessons),
 }));
@@ -80,10 +80,10 @@ export const unitsRelations = relations(units, ({one,many}) => ({
     * 
     * @returns {Table} The `lessons` table definition.
  */
-export const lessons = pgTable("lessons",{
+export const lessons = pgTable("lessons", {
     id: serial("id").primaryKey(),
     title: text("title").notNull(),
-    unitId: integer("unit_id").references( () => units.id,{onDelete:"cascade"} ).notNull(),
+    unitId: integer("unit_id").references(() => units.id, { onDelete: "cascade" }).notNull(),
     order: integer("order").notNull(),
 });
 
@@ -98,10 +98,10 @@ export const lessons = pgTable("lessons",{
     * 
     * @returns {Object} The relations for the `lessons` table.
 */
-const lessonsRelations = relations(lessons, ({one, many}) => ({
-    unit: one(units,{
-        fields:[lessons.unitId],
-        references:[units.id],
+const lessonsRelations = relations(lessons, ({ one, many }) => ({
+    unit: one(units, {
+        fields: [lessons.unitId],
+        references: [units.id],
     }),
     challenges: many(challenges),
 }));
@@ -129,19 +129,59 @@ export const challenges = pgTable("challenges", {
 /**
     * Defines the relations for the `challenges` table:
     * - `lesson`: One-to-one relation with the `lessons` table based on `lessonId`.
+    * - `challengesOptions`: One-to-Many relation with the `challengesOptions` table.
     * 
     * It reads:
     * - Each challenge belongs to ONE lesson.
+    * - Each challenge can have MANY challengesOptions
     * 
     * @returns {Object} The relations for the `challenges` table. 
 */
 
-export const challengesRelations = relations(challenges, ({one,many}) => ({
+export const challengesRelations = relations(challenges, ({ one, many }) => ({
     lesson: one(lessons, {
         fields: [challenges.lessonId],
         references: [lessons.id],
     }),
+    challengesOptions: many(challengesOptions),
 }));
+
+/**
+    * Defines the `challengeOptions` table with the following columns:
+    * - `id`: Serial primary key.
+    * - `challengeId`: Integer referencing `challenges.id`, non-nullable, cascades on delete.
+    * - `text`: Non-nullable text.
+    * - `isCorrect`: Non-nullable boolean.
+    * - `imageSrc`: Text.
+    * - `audioSrc`: Text.
+    * 
+    * @returns {Table} The `challengeOptions` table definition.
+*/
+export const challengesOptions = pgTable("challengeOptions", {
+    id: serial("id").primaryKey(),
+    challengeId: integer("challenge_id").references(() => challenges.id, { onDelete: "cascade" }).notNull(),
+    text: text("text").notNull(),
+    isCorrect: boolean("is_correct").notNull(),
+    imageSrc: text("image_src"),
+    audioSrc: text("audio_src"),
+});
+
+/**
+    * Defines the relations for the `challengesOptions` table:
+    * - `challenge`: One-to-one relation with the `challenges` table based on `challenges.id`.
+    * 
+    * It reads:
+    * - Each challengesOptions belongs to ONE challlenges.
+    * 
+    * @returns {Object} The relations for the `challenges` table.
+*/
+export const challengesOptionsRelations = relations(challengesOptions, ({ one }) => ({
+    challenge: one(challenges, {
+        fields: [challengesOptions.challengeId],
+        references: [challenges.id],
+    })
+}));
+
 
 
 
@@ -157,11 +197,11 @@ export const challengesRelations = relations(challenges, ({one,many}) => ({
     * 
     * @returns {Table} The `userProgress` table definition. 
 */
-export const userProgress = pgTable("user_progress",{
+export const userProgress = pgTable("user_progress", {
     userId: text("user_id").primaryKey(),
     userName: text("user_name").notNull().default("User"),
     userImageSrc: text("user_img_src").notNull().default("/mascot.svg"),
-    activeCourseId: integer("active_course_id").references( () => courses.id,{onDelete:"cascade"} ),
+    activeCourseId: integer("active_course_id").references(() => courses.id, { onDelete: "cascade" }),
     hearts: integer("hearts").notNull().default(5),
     points: integer("points").notNull().default(0),
 });
@@ -175,9 +215,9 @@ export const userProgress = pgTable("user_progress",{
     * 
     * @returns {Object} The relations for the `userProgress` table.
 */
-export const userProgressRelations = relations(userProgress,({one}) => ({
-    activeCourse: one(courses,{
-        fields:[userProgress.activeCourseId],
-        references:[courses.id],
+export const userProgressRelations = relations(userProgress, ({ one }) => ({
+    activeCourse: one(courses, {
+        fields: [userProgress.activeCourseId],
+        references: [courses.id],
     }),
 }));
