@@ -31,7 +31,6 @@ export const coursesRelations = relations(courses, ({ many }) => ({
     userProgress: many(userProgress)
 }));
 
-
 // Esta instruccion origina una nueva columna en la tabla courses llamada "units" (que es un arreglo de enteros) por revisar* 
 /**
     * Defines the `units` table with the following columns:
@@ -50,7 +49,6 @@ export const units = pgTable("units", {
     courseId: integer("course_id").references(() => courses.id, { onDelete: "cascade" }).notNull(),
     order: integer("order").notNull(),
 });
-
 
 /**
     * Defines the relations for the `units` table:
@@ -98,7 +96,7 @@ export const lessons = pgTable("lessons", {
     * 
     * @returns {Object} The relations for the `lessons` table.
 */
-const lessonsRelations = relations(lessons, ({ one, many }) => ({
+export const lessonsRelations = relations(lessons, ({ one, many }) => ({
     unit: one(units, {
         fields: [lessons.unitId],
         references: [units.id],
@@ -130,10 +128,12 @@ export const challenges = pgTable("challenges", {
     * Defines the relations for the `challenges` table:
     * - `lesson`: One-to-one relation with the `lessons` table based on `lessonId`.
     * - `challengesOptions`: One-to-Many relation with the `challengesOptions` table.
+    * - `challengesProgress`: One-to-Many relation with the `challengesProgress` table.
     * 
     * It reads:
     * - Each challenge belongs to ONE lesson.
     * - Each challenge can have MANY challengesOptions
+    * - Each challenge can have MANY challengesProgress
     * 
     * @returns {Object} The relations for the `challenges` table. 
 */
@@ -144,6 +144,7 @@ export const challengesRelations = relations(challenges, ({ one, many }) => ({
         references: [lessons.id],
     }),
     challengesOptions: many(challengesOptions),
+    challengesProgress: many(challengesProgress),
 }));
 
 /**
@@ -168,7 +169,7 @@ export const challengesOptions = pgTable("challengeOptions", {
 
 /**
     * Defines the relations for the `challengesOptions` table:
-    * - `challenge`: One-to-one relation with the `challenges` table based on `challenges.id`.
+    * - `challenge`: One-to-one relation with the `challenges` table based on `challengesId`.
     * 
     * It reads:
     * - Each challengesOptions belongs to ONE challlenges.
@@ -183,8 +184,37 @@ export const challengesOptionsRelations = relations(challengesOptions, ({ one })
 }));
 
 
+/**
+    * Defines the `challengesProgress` table with the following columns:
+    * - `id`: Serial primary key.
+    * - `userId`: Text non-nullable.
+    * - `challengeId`: Integer referencing `challenges.id`, non-nullable, cascades on delete.
+    * - `completed`: Non-nullable boolean with a default value of false.
+    * 
+    * @returns {Table} The `challengesProgress` table definition. 
+*/
+export const challengesProgress = pgTable("challengesProgress", {
+    id: serial("id").primaryKey(),
+    userId: text("user_id").notNull(),
+    challengeId: integer("challenge_id").references(() => challenges.id, { onDelete: "cascade" }).notNull(),
+    completed: boolean("completed").notNull().default(false),
+});
 
-
+/**
+    * Defines the relations for the `challengesProgress` table:
+    * - `challenge`: One-to-one relation with the `challenges` table based on `challengeId`. 
+    * 
+    * It reads:
+    * - Each challengesProgress has ONE challenge.
+    * 
+    * @returns {Object} The relations for the `challengesProgress` table.
+*/
+export const challengesProgressRelations = relations(challengesProgress, ({ one }) => ({
+    challenge: one(challenges, {
+        fields: [challengesProgress.challengeId],
+        references: [challenges.id],
+    }),
+}));
 
 /**
     * Defines the userProgress table with the following columns:
