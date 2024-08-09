@@ -1,4 +1,6 @@
-import { getUserProgress } from "@/db/queries";
+import { getUnits,
+    getUserProgress
+} from "@/db/queries";
 import { FeedWrapper } from "@/components/feed-wrapper";
 import { StickyWrapper } from "@/components/sticky-wrapper";
 import { Header } from "./header";
@@ -9,13 +11,19 @@ const LearnPage = async () => {
     console.log("Calling LearnPage");
     
     const getUserProgressData = getUserProgress();
+    const getUnitsData = getUnits();
     const [
-        userProgress
+        userProgress,
+        units,
     ] = await Promise.all([
-        getUserProgressData
+        getUserProgressData,
+        getUnitsData,
     ]);
     console.log("[LearnPage] UserProgres: ", userProgress);
     console.log("[LearnPage] UserProgres.activeCourse: ", userProgress?.activeCourse);
+
+    console.log("[LearnPage] Units: ", units);
+    
     
     //Solo entra aqui cuando el usuario aun no ha seleccionado un curso
     if(!userProgress || !userProgress.activeCourse){
@@ -37,7 +45,7 @@ const LearnPage = async () => {
 
             <FeedWrapper>
                 <Header title = {userProgress.activeCourse.title}/>
-                <div className="space-y-4">
+                {/* <div className="space-y-4">
                     <div className="h-[700px] bg-blue-500 w-full"/>
                     <div className="h-[700px] bg-blue-500 w-full"/>
                     <div className="h-[700px] bg-blue-500 w-full"/>
@@ -48,7 +56,12 @@ const LearnPage = async () => {
                     <div className="h-[700px] bg-blue-500 w-full"/>
                     <div className="h-[700px] bg-blue-500 w-full"/>
 
-                </div>
+                </div> */}
+                { units.map((unit) => (
+                    <div key={unit.id} className=" mb-10">
+                        {JSON.stringify(unit)}
+                    </div>
+                ))}
             </FeedWrapper>
         </div>
     );
