@@ -28,7 +28,8 @@ export const courses = pgTable("courses", {
     * @returns {Object} The relations for the `courses` table. 
 */
 export const coursesRelations = relations(courses, ({ many }) => ({
-    userProgress: many(userProgress)
+    userProgress: many(userProgress),
+    units: many(units),
 }));
 
 // Esta instruccion origina una nueva columna en la tabla courses llamada "units" (que es un arreglo de enteros) por revisar* 
@@ -66,7 +67,7 @@ export const unitsRelations = relations(units, ({ one, many }) => ({
         fields: [units.courseId],
         references: [courses.id],
     }),
-    lesson: many(lessons),
+    lessons: many(lessons),
 }));
 
 /**
