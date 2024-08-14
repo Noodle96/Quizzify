@@ -117,6 +117,54 @@ const main = async () => {
                 unitId:1, // Unit 1 del curso de ingles
                 order:2,
             },
+            {
+                id:3,
+                title:"Lesson 3",
+                unitId:1, // Unit 1 del curso de ingles
+                order:3,
+            },
+            {
+                id:4,
+                title:"Lesson 4",
+                unitId:1, // Unit 1 del curso de ingles
+                order:4,
+            },
+            {
+                id:5,
+                title:"Lesson 5",
+                unitId:1, // Unit 1 del curso de ingles
+                order:5,
+            },
+            {
+                id:6,
+                title:"Lesson 6",
+                unitId:1, // Unit 1 del curso de ingles
+                order:6,
+            },
+            {
+                id:7,
+                title:"Lesson 7",
+                unitId:1, // Unit 1 del curso de ingles
+                order:7,
+            },
+            {
+                id:8,
+                title:"Lesson 8",
+                unitId:1, // Unit 1 del curso de ingles
+                order:8,
+            },
+            {
+                id:9,
+                title:"Lesson 9",
+                unitId:1, // Unit 1 del curso de ingles
+                order:9,
+            },
+            {
+                id:10,
+                title:"Lesson 10",
+                unitId:1, // Unit 1 del curso de ingles
+                order:10,
+            },
         ]);
 
         /**
