@@ -31,7 +31,7 @@ export const Unit = ({
             />
             <div className="flex flex-col items-center relative">
                 {lessons.map( (lesson, index) => {
-                    const isCurrent = lesson.id == activeLesson?.id;
+                    const isCurrent = lesson.id == activeLesson?.id; // remove later hardcoded true
                     const isLocked = !isCurrent && !lesson.completed;
                     return(
                         <LessonButton
@@ -44,7 +44,7 @@ export const Unit = ({
                             percentage={activeLessonPercentage}
                         />
                     );
-                } )};
+                } )}
             </div>
         </Fragment>
     );
