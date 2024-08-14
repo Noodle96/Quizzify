@@ -6,6 +6,7 @@ import { StickyWrapper } from "@/components/sticky-wrapper";
 import { Header } from "./header";
 import { UserProgress } from "@/components/user-progress";
 import { redirect } from "next/navigation";
+import { Unit } from "./unit";
 
 const LearnPage = async () => {
     console.log("Calling LearnPage");
@@ -45,23 +46,22 @@ const LearnPage = async () => {
 
             <FeedWrapper>
                 <Header title = {userProgress.activeCourse.title}/>
-                {/* <div className="space-y-4">
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-                    <div className="h-[700px] bg-blue-500 w-full"/>
-
-                </div> */}
+                
                 { units.map((unit) => (
                     <div key={unit.id} className=" mb-10">
-                        {JSON.stringify(unit)}
+                        {/* {JSON.stringify(unit)} */}
+                        <Unit
+                            id = {unit.id}
+                            order = {unit.order}
+                            description = {unit.description}
+                            title = {unit.title}
+                            lessons = {unit.lessons}
+                            activeLesson = {undefined}
+                            activeLessonPercentage = {0}
+                        />
                     </div>
                 ))}
+                
             </FeedWrapper>
         </div>
     );
