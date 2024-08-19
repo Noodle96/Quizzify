@@ -68,13 +68,15 @@ export const LessonButton = ({
                     marginTop: isFirst && !isCompleted ? 60 : 24,
                 }}
             >
+                {/* the value of current:  {current} */}
                 {current ? (
                     // bg-red-500
                     <div className="h-[102px] w-[102px] relative">
                         <div className="absolute -top-6 left-2.5 px-3 py-2.5 border-4 font-bold \
                                         uppercase text-green-500 bg-white rounded-xl \
                                         animate-bounce tracking-wide z-10">
-                            {indentationLevel}
+                            {/* {rightPosition} */}
+                            Start
                             {/* little arrow down */}
                             <div className="absolute left-1/2 -bottom-2 w-0 h-0 border-x-8 \
                                             border-x-transparent border-t-8 transform -translate-x-1/2"/>
