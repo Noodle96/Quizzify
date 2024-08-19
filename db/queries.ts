@@ -69,6 +69,10 @@ export const getUnits = cache(async () => {
         console.log("unit name: ", unit.title);
         
         const lessonsWithCompletedStatus = unit.lessons.map( (lesson) => {
+            if(lesson.challenges.length === 0){
+                console.log("id lesson : ",lesson.id);   
+                return {...lesson, completed: false};
+            }
             const allCompletedChallenges = lesson.challenges.every((challenge) => {
                 // console.log("\t 1: ", challenge.challengesProgress);
                 // console.log("\t 2: ",challenge.challengesProgress.length > 0);
@@ -83,7 +87,7 @@ export const getUnits = cache(async () => {
             
             return {...lesson, completed: allCompletedChallenges};
         });
-        // console.log("[getUnits] lessonsWithCompletedStatus:", lessonsWithCompletedStatus);
+        console.log("[getUnits] lessonsWithCompletedStatus:", lessonsWithCompletedStatus);
         
         return {...unit,lessons:lessonsWithCompletedStatus};
     });

@@ -165,6 +165,12 @@ const main = async () => {
                 unitId:1, // Unit 1 del curso de ingles
                 order:10,
             },
+            {
+                id:11,
+                title:"Lesson 11",
+                unitId:2, // Unit 1 del curso de ingles
+                order:10,
+            },
         ]);
 
         /**
