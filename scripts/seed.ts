@@ -107,7 +107,7 @@ const main = async () => {
         await db.insert(schema.lessons).values([
             {
                 id:1,
-                title:"Lesson 1",
+                title:"Lesson One",
                 unitId:1, // Unit 1 del curso de ingles
                 order:1,
             },
