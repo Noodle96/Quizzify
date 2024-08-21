@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
+import { ExitModal } from "@/components/modals/exit-modal";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={nunito.className}>
           <Toaster />
+          <ExitModal />
           {children}
         </body>
       </html>
